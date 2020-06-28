@@ -12,36 +12,32 @@
                 {% if forloop.counter == 1 %}
                 <div class="carousel-item active">
                     {% if like.page.tipo == 'img' %}
-                    <img class="d-block w-100" src="../../{{ like.page.img }}"  alt="s {{ forloop.counter }}">
+                    <img class="d-block w-100" src="../../../{{ like.page.img }}"  alt="s {{ forloop.counter }}">
                     {% else %}
                     <video controls autoplay loop muted class="d-block w-100">
-                        <source src="../../{{ like.page.img }}" type=video/mp4>
+                        <source src="../../../{{ like.page.img }}" type=video/mp4>
                     </video>
                     {% endif %}
                     <div class="carousel-caption">
-                        {% if like.liked %}
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" checked='checked' name='chk{{ forloop.counter }}' value="{{ forloop.counter }}">
-                        {% else %}
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name='chk{{ forloop.counter }}' value="{{ forloop.counter }}">
-                        {% endif %}
+                        <button type="button" class="btn btn-success">
+                            {{ like.num_likes }} 
+                        </button>
                     </div>
                 </div>
                 {% endif %}
                 {% if forloop.counter > 1 %}
                 <div class="carousel-item">
                     {% if like.page.tipo == 'img' %}
-                    <img class="d-block w-100" src="../../{{ like.page.img }}"  alt="s {{ forloop.counter }}">
+                    <img class="d-block w-100" src="../../../{{ like.page.img }}"  alt="s {{ forloop.counter }}">
                     {% else %}
                     <video controls autoplay loop muted class="d-block w-100">
-                        <source src="../../{{ like.page.img }}" type=video/mp4>
+                        <source src="../../../{{ like.page.img }}" type=video/mp4>
                     </video>
                     {% endif %}
                     <div class="carousel-caption">
-                        {% if like.liked %}
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" checked='checked' name='chk{{ forloop.counter }}' value="{{ forloop.counter }}">
-                        {% else %}
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name='chk{{ forloop.counter }}' value="{{ forloop.counter }}">
-                        {% endif %}
+                        <button type="button" class="btn btn-success">
+                            {{ like.num_likes }} 
+                        </button>
                     </div>
                 </div>
                 {% endif %}

@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.db.models import Count
+from django.db.models import Q
 import glob
 from .models import (Page,Like)
 
@@ -16,6 +18,8 @@ def get_client_ip(request):
 
 def catalogo_view(request,cnpj):
 
+
+    
     ip = get_client_ip(request)
 
     if request.method == 'POST':
@@ -47,22 +51,19 @@ def catalogo_view(request,cnpj):
     }
     return render(request,"catalogo.html",context)
 
-def catalogo_basic_view(request):
 
-    
+def results_view(request,cnpj):
+    print('CATALOGOOOOGWNFOWF')
+    # Agrupa likes por objeto
+    likes = Like.objects.filter(cnpj=cnpj).annotate(num_likes=Count('liked', filter=Q(liked=True)))
 
-    if request.method == 'POST':
-        qs = request.POST
-        ip = get_client_ip(request)
-        for key,value in qs.items():
-            if key.startswith("chk"):
-                page = Page.objects.filter(ordem=value)[0]
-                Like.objects.create(cnpj=cnpj,ip=ip,page=page)
-        return HttpResponse('<script>history.back();</script>')
+    for like in likes:
+        if like.page.img.path.endswith('mp4'):
+            like.page.tipo = 'video'
+        else:
+            like.page.tipo = 'img'
 
-    pages = Page.objects.all().order_by('ordem')
-    print(pages[0].img)
     context = {
-        'pages' : pages
+        'likes' : likes
     }
-    return render(request,"catalogo.html",context)
+    return render(request,"catalogo_results.html",context)
