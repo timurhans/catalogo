@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+    <div class="form-check banner">
+        <form method="post" >{% csrf_token %}
+            <div class="carousel-inner">
+
+                {% for like in likes %}
+                {% if forloop.counter == 1 %}
+                <div class="carousel-item active">
+                    <img class="d-block w-100 " src="../{{ like.page.img }}"  alt="ban{{ forloop.counter }}">
+                    <div class="carousel-caption d-none d-md-block">
+                        {% if like.liked %}
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" checked='checked' name='chk{{ forloop.counter }}' value="{{ forloop.counter }}">
+                        {% else %}
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name='chk{{ forloop.counter }}' value="{{ forloop.counter }}">
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                {% if forloop.counter > 1 %}
+                <div class="carousel-item">
+                    {% if like.page.tipo == 'img' %}
+                    <img class="d-block w-100" src="../{{ like.page.img }}"  alt="s {{ forloop.counter }}">
+                    {% else %}
+                    <video controls autoplay loop muted class="d-block w-100">
+                        <source src="../{{ like.page.img }}" type=video/mp4>
+                    </video>
+                    {% endif %}
+                    <div class="carousel-caption d-none d-md-block">
+                        {% if like.liked %}
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" checked='checked' name='chk{{ forloop.counter }}' value="{{ forloop.counter }}">
+                        {% else %}
+                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name='chk{{ forloop.counter }}' value="{{ forloop.counter }}">
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+    
+    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+  <input type="submit" value="ok" class="bg-success text-white">
+</form>
+
+  {% endblock %}
