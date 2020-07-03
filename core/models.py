@@ -9,8 +9,8 @@ class Page(models.Model):
         return str('pg'+str(self.ordem))
         
 class Like(models.Model):
-    cnpj      = models.CharField(max_length=10, null=False, blank=False)
-    ip      = models.CharField(max_length=10, null=False, blank=False)
+    cnpj      = models.CharField(max_length=30, null=False, blank=False)
+    ip      = models.CharField(max_length=30, null=False, blank=False)
     page        = models.ForeignKey(Page, null=False, blank=False, on_delete=models.CASCADE)
     liked      = models.BooleanField(default=False)
     def __str__(self):

@@ -4,8 +4,12 @@ from django.db.models import Count
 from django.db.models import Q
 import glob
 from .models import (Page,Like)
+import collections
 
 # Create your views here.
+
+class X():
+    pass
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -53,9 +57,19 @@ def catalogo_view(request,cnpj):
 
 
 def results_view(request,cnpj):
-    print('CATALOGOOOOGWNFOWF')
-    # Agrupa likes por objeto
-    likes = Like.objects.filter(cnpj=cnpj).annotate(num_likes=Count('liked', filter=Q(liked=True)))
+
+    likes = Like.objects.filter(cnpj=cnpj).values('cnpj','page').annotate(num_likes=Count('liked', filter=Q(liked=True)))
+    
+    #transforma dicts para objetos
+    objs = []
+    for l in likes:
+        obj = X()
+        obj.cnpj = l['cnpj']
+        obj.num_likes = l['num_likes']
+        obj.page = Page.objects.filter(ordem=l['page'])[0]
+        print(obj.page.img)
+        objs.append(obj)
+    likes = objs
 
     for like in likes:
         if like.page.img.path.endswith('mp4'):
